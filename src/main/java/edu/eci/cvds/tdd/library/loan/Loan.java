@@ -1,7 +1,9 @@
-package edu.eci.cvds.tdd.library.loan;
+package edu.eci.cvds.tdd.Library.loan;
+
 import edu.eci.cvds.tdd.library.book.Book;
-import edu.eci.cvds.tdd.library.user.User;
+import edu.eci.cvds.tdd.Library.user.User;
 import java.time.LocalDateTime;
+
 
 public class Loan {
     private Book book;
@@ -18,7 +20,7 @@ public class Loan {
         this.book = book;
     }
 
-    public User getUser() {
+    public User getUser(User usuario) {
         return user;
     }
 
