@@ -1,4 +1,4 @@
-package edu.eci.cvds.tdd.library.user;
+package edu.eci.cvds.tdd.Library.user;
 
 public class User {
     private String name;
