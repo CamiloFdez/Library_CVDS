@@ -36,9 +36,18 @@ public class Library {
      * @return true if the book was stored false otherwise.
      */
     public boolean addBook(Book book) {
-        //TODO Implement the logic to add a new book into the map.
-        return false;
+        if (book == null) {
+            return false;
+        }
+        if (books.containsKey(book)) {
+            books.put(book, books.get(book) + 1);
+            return false;
+        } else {
+            books.put(book, 1);
+        }
+        return true;
     }
+
 
     /**
      * This method creates a new loan with for the User identify by the userId and the book identify by the isbn,
@@ -54,8 +63,10 @@ public class Library {
      * @return The new created loan.
      */
     public Loan loanABook(String userId, String isbn) {
-        //TODO Implement the login of loan a book to a user based on the UserId and the isbn.
-        return null;
+        if (userId == null || isbn == null) {
+            return null;
+        }
+    return null;
     }
 
     /**

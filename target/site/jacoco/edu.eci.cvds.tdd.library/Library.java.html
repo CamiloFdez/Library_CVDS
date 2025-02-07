@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Library.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Library</a> &gt; <a href="index.source.html" class="el_package">edu.eci.cvds.tdd.library</a> &gt; <span class="el_source">Library.java</span></div><h1>Library.java</h1><pre class="source lang-java linenums">package edu.eci.cvds.tdd.library;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Library.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Library</a> &gt; <a href="index.source.html" class="el_package">edu.eci.cvds.tdd.library</a> &gt; <span class="el_source">Library.java</span></div><h1>Library.java</h1><pre class="source lang-java linenums">package edu.eci.cvds.tdd.library;
 
 import edu.eci.cvds.tdd.library.book.Book;
 import edu.eci.cvds.tdd.library.loan.Loan;
@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Library responsible for manage the loans and the users.
  */
@@ -18,11 +19,11 @@ public class Library {
     private final Map&lt;Book, Integer&gt; books;
     private final List&lt;Loan&gt; loans;
 
-<span class="nc" id="L21">    public Library() {</span>
-<span class="nc" id="L22">        users = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L23">        books = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L24">        loans = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L25">    }</span>
+<span class="fc" id="L22">    public Library() {</span>
+<span class="fc" id="L23">        users = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L24">        books = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L25">        loans = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L26">    }</span>
 
     /**
      * Adds a new {@link edu.eci.cvds.tdd.library.book.Book} into the system, the book is store in a Map that contains
@@ -35,9 +36,18 @@ public class Library {
      * @return true if the book was stored false otherwise.
      */
     public boolean addBook(Book book) {
-        //TODO Implement the logic to add a new book into the map.
-<span class="nc" id="L39">        return false;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (book == null) {</span>
+<span class="fc" id="L40">            return false;</span>
+        }
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (books.containsKey(book)) {</span>
+<span class="fc" id="L43">            books.put(book, books.get(book) + 1);</span>
+<span class="fc" id="L44">            return false;</span>
+        } else {
+<span class="fc" id="L46">            books.put(book, 1);</span>
+        }
+<span class="fc" id="L48">        return true;</span>
     }
+
 
     /**
      * This method creates a new loan with for the User identify by the userId and the book identify by the isbn,
@@ -53,8 +63,10 @@ public class Library {
      * @return The new created loan.
      */
     public Loan loanABook(String userId, String isbn) {
-        //TODO Implement the login of loan a book to a user based on the UserId and the isbn.
-<span class="nc" id="L57">        return null;</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">        if (userId == null || isbn == null) {</span>
+<span class="nc" id="L67">            return null;</span>
+        }
+<span class="nc" id="L69">    return null;</span>
     }
 
     /**
@@ -68,11 +80,11 @@ public class Library {
      */
     public Loan returnLoan(Loan loan) {
         //TODO Implement the login of loan a book to a user based on the UserId and the isbn.
-<span class="nc" id="L71">        return null;</span>
+<span class="nc" id="L83">        return null;</span>
     }
 
     public boolean addUser(User user) {
-<span class="nc" id="L75">        return users.add(user);</span>
+<span class="fc" id="L87">        return users.add(user);</span>
     }
 
 }
