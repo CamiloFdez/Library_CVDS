@@ -366,8 +366,177 @@ public class UserTest {
 ### LibraryTest
 
 ```java
-        
+    package edu.eci.cvds.tdd;
+
+import edu.eci.cvds.tdd.library.Library;
+import edu.eci.cvds.tdd.library.book.Book;
+import edu.eci.cvds.tdd.library.user.User;
+import edu.eci.cvds.tdd.library.loan.Loan;
+import edu.eci.cvds.tdd.library.loan.LoanStatus;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class LibraryTest {
+    Library library = new Library();
+    Book book = new Book("El principito", "Antoine de Saint-Exupéry", "978-987-718-117-3");
+    User user = new User("Wilson Rodriguez", "wilson.r@gmail.com");
+
+    @Test
+    public void testAddBook() {
+        assertTrue(library.addBook(book));
+    }
+
+    @Test
+    public void testAddBookRepeated() {
+        library.addBook(book);
+        assertFalse(library.addBook(book));
+    }
+    @Test
+    public void testLoanABookSuccess() {
+        library.addUser(user);
+        library.addBook(book);
+        Loan loan = library.loanABook(user.getId(), book.getIsbn());
+        assertNotNull(loan);
+        assertEquals(LoanStatus.ACTIVE, loan.getStatus());
+        assertEquals(book, loan.getBook());
+        assertEquals(user, loan.getUser());
+    }
+    @Test
+    public void testReturnLoanSuccess() {
+        library.addUser(user);
+        library.addBook(book);
+        Loan loan = library.loanABook(user.getId(), book.getIsbn());
+        assertNotNull(loan);
+        Loan returnedLoan = library.returnLoan(loan);
+        assertNotNull(returnedLoan);
+        assertEquals(LoanStatus.RETURNED, returnedLoan.getStatus());
+    }
+
+    @Test
+    public void testLoanABookUserNotFound() {
+        library.addBook(book);
+        Loan loan = library.loanABook("nonexistent-user", book.getIsbn());
+        assertNull(loan);
+    }
+
+    @Test
+    public void testLoanABookBookNotFound() {
+        library.addUser(user);
+        Loan loan = library.loanABook(user.getId(), "nonexistent-isbn");
+        assertNull(loan);
+    }
+
+    @Test
+    public void testAddBookNull() {
+        assertFalse(library.addBook(null));
+    }
+
+    @Test
+    public void testUseradd(){
+        assertTrue(library.addUser(user));
+    }
+}
+
 ```
+## SONARQUBE
+
+Utilizaremos SONARQUBE para hacer un analisis estatico del codigo , para esto necesitamos tener Doker por lo cual a continuacion descargamos la imagen de doker:
+
+- Para intaler y ejecutar SONARQUBE instalaremos Ubuntu:
+
+    ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/installUbuntu.png)
+
+- Instalamos doker para poder ejecutar y gestionar la aplicacion en un contenedor :
+
+    Buscamos en el navegador el installador de doker :
+
+    ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/dokerGoogle.png)
+
+    En la pagina oficial descargamos el paquete de instalacion de doker:
+
+    ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/installDokerPage.png)
+
+    Una vez descargado Inicializamos la instalacion en el equipo:
+
+    ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/dokerInitializingInstall.png)
+
+    Se desempacan los archivos necesarios para la intalacion y ejecucion de doker:
+
+    ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/dokerUnpakingFiles.png)
+    
+    Se completara la instalacion:
+
+    ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/dokerInstallationSucceded.png)
+
+    con esto ya podemos ejecutar el comando para descargar la imagen de doker:
+
+    ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/imagenDoker.png)
+
+    ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/imagenDokerFirewall.png)
+
+- Arrancamos el servicio de SONARQUBE con el comando ```docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest```:
+
+    ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/dokerArranque.png)
+
+- Validamos el funcionamiento utilizando el comando ```doker ps -a```:
+
+    ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/dokerValidacion.png)
+
+- Iniciamos sesion en sonar ```localhost:9000``` , cambiamos la contraseña la cual por defecto es usuario y el usuario es admin:
+
+![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/sonarLog.png)
+
+![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/sonarUpdatePasword.png)
+
+- Entramos a las opciones de la cuenta para generar un token:
+
+![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/sonarToken.png)
+
+- Instalamos sonarLint en el IDE que en nuestro caso es IntelliJ :
+
+![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/sonarLintIDE.png)
+
+- Ahora añadimos el plugin de Sonar al pom del proyecto esto usando :
+
+```xml
+<plugin>
+    <groupId>org.sonarsource.scanner.maven</groupId>
+     <artifactId>sonar-maven-plugin</artifactId>
+    <version>4.0.0.4121</version>
+</plugin>
+```
+Implementado :
+
+![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/sonarPlugin.png)
+
+- Ahora implementamos las propiedades de Sonar en el pom del proyecto usando:
+
+```xml
+    <sonar.projectKey>library</sonar.projectKey>
+    <sonar.projectName>library</sonar.projectName>
+    <sonar.host.url>http://localhost:9000</sonar.host.url>
+    <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <sonar.coverage.exclusions>src//configurators/*</sonar.coverage.exclusions>
+```
+Implementado:
+
+![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/sonarProperties.png)
+
+- Generamos el reporte con JaCoCo con el cubrimento adecuado corregido:
+
+- Generamos la integracion con sonar usando el comando ```mvn verify sonar:sonar -D sonar.token=[TOKEN_GENERADO```:
+
+![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/sonarIntegrate1.png)
+![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/sonarIntegrate2.png)
+
+
+
+    
+
+
+
+
+
 
 
 
