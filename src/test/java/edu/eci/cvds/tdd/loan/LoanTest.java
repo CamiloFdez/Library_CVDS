@@ -27,7 +27,7 @@ public class LoanTest {
     public void testSetAndGetUer(){
         Loan prestamo = new Loan();
         prestamo.setUser(usuario);
-        assertEquals(usuario,prestamo.getUser(usuario),"El usuario debe ser igual al establecido.");
+        assertEquals(usuario,prestamo.getUser(),"El usuario debe ser igual al establecido.");
     }
 
     @Test
