@@ -529,6 +529,12 @@ Implementado:
 ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/sonarIntegrate1.png)
 ![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/sonarIntegrate2.png)
 
+- Una vez generado el reporte lo visualizamos en la pagina de sonar:
+![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/Sonarproject.png)
+
+- Ahora para finalizar esperamos un poco y el reporte desde la pagina de Sonar se nos vera de essta manera la cual nos dara el estado del proyecto:
+![imagen](https://github.com/CamiloFdez/Library_CVDS/blob/master/assets/Sonarfinal.png)
+
 
 
     
