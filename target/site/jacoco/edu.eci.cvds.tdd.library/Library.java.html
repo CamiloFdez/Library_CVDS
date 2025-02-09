@@ -3,7 +3,9 @@
 import edu.eci.cvds.tdd.library.book.Book;
 import edu.eci.cvds.tdd.library.loan.Loan;
 import edu.eci.cvds.tdd.library.user.User;
+import edu.eci.cvds.tdd.library.loan.LoanStatus;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,15 +21,15 @@ public class Library {
     private final Map&lt;Book, Integer&gt; books;
     private final List&lt;Loan&gt; loans;
 
-<span class="fc" id="L22">    public Library() {</span>
-<span class="fc" id="L23">        users = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L24">        books = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L25">        loans = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L26">    }</span>
+<span class="fc" id="L24">    public Library() {</span>
+<span class="fc" id="L25">        users = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L26">        books = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L27">        loans = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L28">    }</span>
 
     /**
-     * Adds a new {@link edu.eci.cvds.tdd.library.book.Book} into the system, the book is store in a Map that contains
-     * the {@link edu.eci.cvds.tdd.library.book.Book} and the amount of books available, if the book already exist the
+     * Adds a new {@link Book} into the system, the book is store in a Map that contains
+     * the {@link Book} and the amount of books available, if the book already exist the
      * amount should increase by 1 and if the book is new the amount should be 1, this method returns true if the
      * operation is successful false otherwise.
      *
@@ -36,16 +38,16 @@ public class Library {
      * @return true if the book was stored false otherwise.
      */
     public boolean addBook(Book book) {
-<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (book == null) {</span>
-<span class="fc" id="L40">            return false;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (book == null) {</span>
+<span class="fc" id="L42">            return false;</span>
         }
-<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (books.containsKey(book)) {</span>
-<span class="fc" id="L43">            books.put(book, books.get(book) + 1);</span>
-<span class="fc" id="L44">            return false;</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (books.containsKey(book)) {</span>
+<span class="fc" id="L45">            books.put(book, books.get(book) + 1);</span>
+<span class="fc" id="L46">            return false;</span>
         } else {
-<span class="fc" id="L46">            books.put(book, 1);</span>
+<span class="fc" id="L48">            books.put(book, 1);</span>
         }
-<span class="fc" id="L48">        return true;</span>
+<span class="fc" id="L50">        return true;</span>
     }
 
 
@@ -53,8 +55,8 @@ public class Library {
      * This method creates a new loan with for the User identify by the userId and the book identify by the isbn,
      * the loan should be store in the list of loans, to successfully create a loan is required to validate that the
      * book is available, that the user exist and the same user could not have a loan for the same book
-     * {@link edu.eci.cvds.tdd.library.loan.LoanStatus#ACTIVE}, once these requirements are meet the amount of books is
-     * decreased and the loan should be created with {@link edu.eci.cvds.tdd.library.loan.LoanStatus#ACTIVE} status and
+     * {@link LoanStatus#ACTIVE}, once these requirements are meet the amount of books is
+     * decreased and the loan should be created with {@link LoanStatus#ACTIVE} status and
      * the loan date should be the current date.
      *
      * @param userId id of the user.
@@ -63,15 +65,33 @@ public class Library {
      * @return The new created loan.
      */
     public Loan loanABook(String userId, String isbn) {
-<span class="nc bnc" id="L66" title="All 4 branches missed.">        if (userId == null || isbn == null) {</span>
-<span class="nc" id="L67">            return null;</span>
-        }
-<span class="nc" id="L69">    return null;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        for (User user : users) {</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">            if (user.getId().equals(userId)) {</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">                for (Book book : books.keySet()) {</span>
+<span class="pc bpc" id="L71" title="1 of 4 branches missed.">                    if (book.getIsbn().equals(isbn) &amp;&amp; books.get(book) &gt; 0) {</span>
+<span class="fc" id="L72">                        LocalDateTime loanDate = LocalDateTime.now();</span>
+<span class="fc" id="L73">                        LoanStatus status = LoanStatus.ACTIVE;</span>
+<span class="fc" id="L74">                        LocalDateTime returnDate = LocalDateTime.now();</span>
+<span class="fc" id="L75">                        Loan loan = new Loan(book, user, loanDate, status, returnDate);</span>
+<span class="fc" id="L76">                        loan.setBook(book);</span>
+<span class="fc" id="L77">                        loan.setUser(user);</span>
+<span class="fc" id="L78">                        loan.setLoanDate(LocalDateTime.now());</span>
+<span class="fc" id="L79">                        loan.setStatus(LoanStatus.ACTIVE);</span>
+
+<span class="fc" id="L81">                        loans.add(loan);</span>
+<span class="fc" id="L82">                        books.put(book, books.get(book) - 1);</span>
+<span class="fc" id="L83">                        return loan;</span>
+                    }
+<span class="fc" id="L85">                }</span>
+            }
+<span class="fc" id="L87">        }</span>
+<span class="fc" id="L88">        return null;</span>
     }
+
 
     /**
      * This method return a loan, meaning that the amount of books should be increased by 1, the status of the Loan
-     * in the loan list should be {@link edu.eci.cvds.tdd.library.loan.LoanStatus#RETURNED} and the loan return
+     * in the loan list should be {@link LoanStatus#RETURNED} and the loan return
      * date should be the current date, validate that the loan exist.
      *
      * @param loan loan to return.
@@ -79,12 +99,17 @@ public class Library {
      * @return the loan with the RETURNED status.
      */
     public Loan returnLoan(Loan loan) {
-        //TODO Implement the login of loan a book to a user based on the UserId and the isbn.
-<span class="nc" id="L83">        return null;</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (loans.contains(loan)) {</span>
+<span class="fc" id="L103">            loan.setStatus(LoanStatus.RETURNED);</span>
+<span class="fc" id="L104">            loan.setReturnDate(LocalDateTime.now());</span>
+<span class="fc" id="L105">            books.put(loan.getBook(), books.get(loan.getBook()) + 1);</span>
+<span class="fc" id="L106">            return loan;</span>
+        }
+<span class="fc" id="L108">        return null;</span>
     }
 
     public boolean addUser(User user) {
-<span class="fc" id="L87">        return users.add(user);</span>
+<span class="fc" id="L112">        return users.add(user);</span>
     }
 
 }

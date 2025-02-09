@@ -14,10 +14,16 @@ public class LoanTest {
 
     private  Book libro = new Book("El principito", "Antoine de Saint-Exupery", "9783140464079");
     private  User usuario = new User("roger rodriguez","rogerrodriguez@gmail.com");
+    private Book book;
+    private User user;
+    private LocalDateTime loanDate;
+    private LoanStatus status;
+    private LocalDateTime returnDate;
+
 
     @Test
     public void testSetAndGetBook(){
-        Loan prestamo = new Loan();
+        Loan prestamo = new Loan(book, user, loanDate, status, returnDate);
         prestamo.setBook(libro);
         assertEquals(libro,prestamo.getBook(),"El libro debe de ser igual al establecido.");
 
@@ -25,7 +31,7 @@ public class LoanTest {
 
     @Test
     public void testSetAndGetUer(){
-        Loan prestamo = new Loan();
+        Loan prestamo = new Loan(book, user, loanDate, status, returnDate);
         prestamo.setUser(usuario);
         assertEquals(usuario,prestamo.getUser(),"El usuario debe ser igual al establecido.");
     }
@@ -33,14 +39,14 @@ public class LoanTest {
     @Test
     public void testSetAndGetLocalDateTime() {
         LocalDateTime loanDate = LocalDateTime.now();
-        Loan prestamo = new Loan();
+        Loan prestamo = new Loan(book, user, loanDate, status, returnDate);
         prestamo.setLoanDate(loanDate);
         assertEquals(loanDate, prestamo.getLoanDate(), "La fecha del prestamo debe de ser igual a la establecida.");
     }
 
     @Test
     public void testSetAndGetLoanStatus(){
-        Loan prestamo = new Loan();
+        Loan prestamo = new Loan(book, user, loanDate, status, returnDate);
         LoanStatus status = LoanStatus.ACTIVE;
         prestamo.setStatus(status);
         assertEquals(status,prestamo.getStatus(),"El estado del prestamo deberia ser igual a ACTIVE.");
@@ -49,7 +55,7 @@ public class LoanTest {
     @Test
     public void testSetAndGetReturnDate(){
         LocalDateTime returnDate = LocalDateTime.now();
-        Loan prestamo = new Loan();
+        Loan prestamo = new Loan(book, user, loanDate, status, returnDate);
         prestamo.setReturnDate(returnDate);
         assertEquals(returnDate,prestamo.getReturnDate(),"La fecha de retorno deberia ser igual a cuando se establecio.");
     }
