@@ -33,6 +33,7 @@ public class LibraryTest {
         assertEquals(book, loan.getBook());
         assertEquals(user, loan.getUser());
     }
+
     @Test
     public void testReturnLoanSuccess() {
         library.addUser(user);
@@ -66,5 +67,22 @@ public class LibraryTest {
     @Test
     public void testUseradd(){
         assertTrue(library.addUser(user));
+    }
+
+    @Test
+    public void testLoanABookBookNotAvailable() {
+        library.addUser(user);
+        library.addBook(book);
+        library.loanABook(user.getId(), book.getIsbn());
+
+        Loan loan = library.loanABook(user.getId(), book.getIsbn());
+        assertNull(loan, "El prestamo deberia ser nulo porque el libro ya no esta.");
+    }
+
+    @Test
+    public void testReturnLoanWhenLoanDoesNotExist() {
+        Loan loan = new Loan(book, user, null, LoanStatus.ACTIVE, null);
+        Loan returnedLoan = library.returnLoan(loan);
+        assertNull(returnedLoan, "Prestamo nulo porque no aparece en el sistema.");
     }
 }

@@ -5,51 +5,60 @@ import edu.eci.cvds.tdd.library.user.User;
 import java.time.LocalDateTime;
 
 
-<span class="fc" id="L8">public class Loan {</span>
+public class Loan {
     private Book book;
     private User user;
     private LocalDateTime loanDate;
     private LoanStatus status;
     private LocalDateTime returnDate;
 
+<span class="fc" id="L15">    public Loan(Book book, User user, LocalDateTime loanDate, LoanStatus status, LocalDateTime returnDate) {</span>
+<span class="fc" id="L16">        this.book = book;</span>
+<span class="fc" id="L17">        this.user = user;</span>
+<span class="fc" id="L18">        this.loanDate = loanDate;</span>
+<span class="fc" id="L19">        this.status = status;</span>
+<span class="fc" id="L20">        this.returnDate = returnDate;</span>
+
+<span class="fc" id="L22">    }</span>
+
     public Book getBook() {
-<span class="fc" id="L16">        return book;</span>
+<span class="fc" id="L25">        return book;</span>
     }
 
     public void setBook(Book book) {
-<span class="fc" id="L20">        this.book = book;</span>
-<span class="fc" id="L21">    }</span>
+<span class="fc" id="L29">        this.book = book;</span>
+<span class="fc" id="L30">    }</span>
 
-    public User getUser(User usuario) {
-<span class="fc" id="L24">        return user;</span>
+    public User getUser() {
+<span class="fc" id="L33">        return user;</span>
     }
 
     public void setUser(User user) {
-<span class="fc" id="L28">        this.user = user;</span>
-<span class="fc" id="L29">    }</span>
+<span class="fc" id="L37">        this.user = user;</span>
+<span class="fc" id="L38">    }</span>
 
     public LocalDateTime getLoanDate() {
-<span class="fc" id="L32">        return loanDate;</span>
+<span class="fc" id="L41">        return loanDate;</span>
     }
 
     public void setLoanDate(LocalDateTime loanDate) {
-<span class="fc" id="L36">        this.loanDate = loanDate;</span>
-<span class="fc" id="L37">    }</span>
+<span class="fc" id="L45">        this.loanDate = loanDate;</span>
+<span class="fc" id="L46">    }</span>
 
     public LoanStatus getStatus() {
-<span class="fc" id="L40">        return status;</span>
+<span class="fc" id="L49">        return status;</span>
     }
 
     public void setStatus(LoanStatus status) {
-<span class="fc" id="L44">        this.status = status;</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L53">        this.status = status;</span>
+<span class="fc" id="L54">    }</span>
 
     public LocalDateTime getReturnDate() {
-<span class="fc" id="L48">        return returnDate;</span>
+<span class="fc" id="L57">        return returnDate;</span>
     }
 
     public void setReturnDate(LocalDateTime returnDate) {
-<span class="fc" id="L52">        this.returnDate = returnDate;</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L61">        this.returnDate = returnDate;</span>
+<span class="fc" id="L62">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
